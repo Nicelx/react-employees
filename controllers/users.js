@@ -6,22 +6,22 @@ const jwt = require('jsonwebtoken');
 const login = async (req, res) => {
 	const { email, password } = req.body;
 
-	if (!email && !password) {
+	if (!email || !password) {
 		return res.status(400).json({ message: "Пожалуйста, заполните обязательные поля" });
 	}
 	const user = await prisma.user.findFirst({
-		where: (
-			email
-		)
+		where: {email}
 	});
 
 	const isPasswordCorrect = user && (await bcrypt.compare(password, user.password))
+	const secret = process.env.JWT_SECRET
 
-	if (user && isPasswordCorrect) {
+	if (user && isPasswordCorrect && secret) {
 		res.status(200).json({
 			id: user.id,
 			email:user.email,
-			name: user.name
+			name: user.name,
+			token: jwt.sign({id: user.id}, secret, {expiresIn: '2d'})
 		})
 	} else {
 		return res.status(400).json({message: 'неверно введен логин или пароль'})
@@ -35,8 +35,9 @@ const login = async (req, res) => {
 const register = async (req, res) => {
 	const {email, password, name} = req.body;
 
-	if (!email && !password && !name) {
-		return res.send(400).json({message: 'Пожалуйста заполните обязательные поля'})
+	if (!email || !password || !name) {
+		// return res.send(400).json({message: 'Пожалуйста заполните обязательные поля'})
+		return res.status(400).json({message: 'Пожалуйста заполните обязательные поля'})
 	}
 
 	const registeredUser = await prisma.user.findFirst({
@@ -58,7 +59,7 @@ const register = async (req, res) => {
 		data: {
 			email,
 			name,
-			hashedPassword
+			password: hashedPassword
 
 		}
 	})
@@ -67,8 +68,13 @@ const register = async (req, res) => {
 
 	if (user && secret) {
 		res.status(201).json({
-			id: user.id
+			id: user.id,
+			email: user.email,
+			name,
+			token: jwt.sign({id: user.id}, secret, {expiresIn: '2d'})
 		})
+	} else {
+		return res.status(400).json({message: 'не удалось создать пользователя'})
 	}
 
 };
