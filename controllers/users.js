@@ -32,7 +32,7 @@ const login = async (req, res) => {
   @desc Регистрация
   @access Public
 */
-const register = async (req, res) => {
+const register = async (req, res, next) => {
 	const {email, password, name} = req.body;
 
 	if (!email || !password || !name) {
