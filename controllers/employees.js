@@ -24,7 +24,7 @@ const add = async (req, res) => {
 	try {
 		const data = req.body;
 
-		if (!data.firstName || !data.lastName || !data.adress || !data.age) {
+		if (!data.firstName || !data.lastName || !data.address || !data.age) {
 			return res.status(400).json({
 				message: "Все поля обязательны",
 			});
