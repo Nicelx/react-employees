@@ -30,14 +30,10 @@ const add = async (req, res) => {
 			});
 		}
 
-		const employee = await prisma.user.update({
-			where: {
-				id: req.user.id
-			},
+		const employee = await prisma.employee.create({
 			data: {
-				createdEmloyee: {
-					create: data					
-				}
+				...data,
+				userId: req.user.id
 			}
 		})
 

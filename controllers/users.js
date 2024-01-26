@@ -21,7 +21,7 @@ const login = async (req, res) => {
 				id: user.id,
 				email: user.email,
 				name: user.name,
-				token: jwt.sign({ id: user.id }, secret, { expiresIn: "2d" }),
+				token: jwt.sign({ id: user.id }, secret, { expiresIn: "10d" }),
 			});
 		} else {
 			return res.status(400).json({ message: "неверно введен логин или пароль" });
