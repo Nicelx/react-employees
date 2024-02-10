@@ -19,7 +19,8 @@ const slice = createSlice({
 	extraReducers: (builder) => {
 		builder
 		.addMatcher(employeesApi.endpoints.getAllEmployees.matchFulfilled, (state, action) => {
-			state.employees = action.payload
+			// state.employees = action.payload
+			console.log('state', state);
 		})
 	}
 })
