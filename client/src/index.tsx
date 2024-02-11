@@ -10,6 +10,7 @@ import { Register } from "./pages/register";
 import "./index.css";
 import { ConfigProvider, theme } from "antd";
 import { Auth } from "./features/auth/auth";
+import { Employees } from "./pages/employees";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -17,7 +18,7 @@ const root = createRoot(container);
 const router = createBrowserRouter([
 	{
 		path: Paths.home,
-		element: <h1>home</h1>,
+		element: <Employees/>
 	},
 	{
 		path: Paths.login,
