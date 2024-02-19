@@ -1,7 +1,9 @@
 import { Employee } from '@prisma/client';
-import { Card, Form } from 'antd';
+import { Card, Form, Space } from 'antd';
 import React from 'react'
 import { CustomInput } from '../custom-input';
+import { ErrorMessage } from '../error-message';
+import { CustomButton } from '../custom-button';
 type Props<T> = {
 	onFinish: (values: T) => void;
 	btnText: string;
@@ -24,7 +26,12 @@ export const EmployeeForm = ({
 			<CustomInput type = "text" name = "lastName" placeholder='Фамилия'/>
 			<CustomInput type = "number" name = "age" placeholder='age'/>
 			<CustomInput type = "text" name = "address" placeholder='address'/>
-			<Space></Space>
+			<Space>
+				<ErrorMessage message = {error} />
+				<CustomButton htmlType='submit'>
+					{btnText}
+				</CustomButton>
+			</Space>
 		</Form>
 	</Card>
   )
